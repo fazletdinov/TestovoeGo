@@ -13,5 +13,5 @@ func NewUpdateTaskRouter(
 	taskController := &controller.UpdateTaskController{
 		Env: env,
 	}
-	group.PATCH("/task/:task_id", taskController.Update)
+	group.PUT("/task/:task_id", taskController.Update)
 }

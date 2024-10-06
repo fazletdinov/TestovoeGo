@@ -31,7 +31,7 @@ func (tr *taskRepository) CreateTask(
 
 func (tr *taskRepository) GetTask(
 	ctx context.Context,
-	taskID int,
+	taskID int64,
 ) (*models.Task, error) {
 	task := new(models.Task)
 	err := tr.database.NewSelect().Model(task).Where("id = ?", taskID).Scan(ctx)

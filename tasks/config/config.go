@@ -14,7 +14,6 @@ type Config struct {
 	TasksServer TasksServer `yaml:"tasks_server"`
 	PostgresDB  PostgresDB  `yaml:"postgres_tasks_db"`
 	GRPC        GRPC        `yaml:"grpc"`
-	Jaeger      Jaeger      `yaml:"jaeger"`
 }
 
 type TasksServer struct {
@@ -33,11 +32,6 @@ type PostgresDB struct {
 type GRPC struct {
 	TasksGRPCPort int           `yaml:"tasks_grpc_port" env:"TASKS_GRPC_PORT"`
 	Timeout       time.Duration `yaml:"timeout"`
-}
-
-type Jaeger struct {
-	CollectorUrl string `yaml:"collector_url"`
-	Application  string `yaml:"application"`
 }
 
 func InitConfig() (*Config, error) {

@@ -31,7 +31,7 @@ func (ts *taskService) CreateTask(
 
 func (ts *taskService) GetTask(
 	ctx context.Context,
-	taskID int,
+	taskID int64,
 ) (*dto.TaskResponse, error) {
 	task, err := ts.taskRepository.GetTask(ctx, taskID)
 	if err != nil {

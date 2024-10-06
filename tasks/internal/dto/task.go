@@ -26,3 +26,7 @@ type ErrorResponse struct {
 type SuccessResponse struct {
 	Message string `json:"message"`
 }
+
+type UpdateTaskRequest struct {
+	Status string `json:"status"`
+}
