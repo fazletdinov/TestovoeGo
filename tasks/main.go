@@ -1,6 +1,10 @@
 package main
 
 import (
+	"os"
+	"os/signal"
+	"syscall"
+
 	_ "tasks/docs"
 	taskRoute "tasks/internal/api/http/route"
 	"tasks/internal/app"
@@ -27,6 +31,7 @@ func main() {
 	app := app.App()
 
 	env := app.Env
+	go app.GRPCServer.MustRun()
 	//log := app.Log
 
 	gin := gin.Default()
@@ -36,4 +41,9 @@ func main() {
 	taskRoute.SetupTaskRouter(gin, env, app.DB)
 
 	gin.Run(":" + env.TasksServer.TasksPort)
+
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, syscall.SIGTERM, syscall.SIGINT)
+	<-stop
+	app.GRPCServer.Stop()
 }

@@ -18,9 +18,10 @@ const (
 )
 
 type Application struct {
-	DB  *bun.DB
-	Env *config.Config
-	Log *zerolog.Logger
+	DB         *bun.DB
+	Env        *config.Config
+	Log        *zerolog.Logger
+	GRPCServer *GRPC
 }
 
 func App() Application {
@@ -31,6 +32,7 @@ func App() Application {
 	}
 	PostgresClient := database.InitDatabse(Env)
 	log := setupLogger(Env.Env)
+	app.GRPCServer = NewGRPC(log, Env, PostgresClient)
 	app.Env = Env
 	app.Log = log
 	app.DB = PostgresClient

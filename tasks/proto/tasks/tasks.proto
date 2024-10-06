@@ -34,5 +34,5 @@ message UpdateTaskRequest {
 }
 
 message UpdateTaskResponse {
-    Task task = 1;
+    string message = 1;
 }

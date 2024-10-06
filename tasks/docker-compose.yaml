@@ -29,6 +29,7 @@ services:
       - dev-network
     ports:
       - ${TASKS_PORT}:${TASKS_PORT}
+      - "13714:13714"
     depends_on:
       postgres_tasks_db:
         condition: service_healthy
