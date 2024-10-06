@@ -1,0 +1,19 @@
+# Окружение - local, dev или prod
+env: "local"
+
+# конфигурация нашего posts-сервера
+tasks_server: 
+  tasks_port: "8082"
+  
+# конфигурация PostgresDB
+postgres_tasks_db: 
+  user: ""
+  password: ""
+  host: "postgres_tasks_db"
+  port: 5432
+  name: "postgres"
+  ssl_mode: "disable"
+
+# конфигурация gRPC
+grpc:
+  posts_grpc_port: 13714
