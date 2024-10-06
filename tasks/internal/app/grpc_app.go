@@ -59,7 +59,6 @@ func (g *GRPC) Run() error {
 }
 
 func (g *GRPC) Stop() {
-	const op = "grpcapp.Run"
 	g.log.Info().Msg(fmt.Sprintf("Остановка gRPC Server, port = %d", g.Env.GRPC.TasksGRPCPort))
 	g.gRPCServer.GracefulStop()
 }

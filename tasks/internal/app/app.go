@@ -43,10 +43,13 @@ func setupLogger(env string) *zerolog.Logger {
 	zerolog.TimeFieldFormat = "02/Jan/2006 - 15:04:05 -0700"
 	switch env {
 	case envLocal:
-		logger := zerolog.New(zerolog.ConsoleWriter{
-			Out:        os.Stderr,
-			TimeFormat: "02/Jan/2006 - 15:04:05 -0700",
-		}).
+		logFile, err := os.OpenFile("log.txt", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0664)
+		if err != nil {
+			logger := zerolog.New(os.Stderr).With().Timestamp().Logger()
+			logger.Fatal().Err(err).Msg("Не удалось открыть файл.")
+		}
+		multi := zerolog.MultiLevelWriter(os.Stdout, logFile)
+		logger := zerolog.New(multi).
 			Level(zerolog.TraceLevel).
 			With().
 			Timestamp().

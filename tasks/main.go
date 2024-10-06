@@ -8,6 +8,7 @@ import (
 	_ "tasks/docs"
 	taskRoute "tasks/internal/api/http/route"
 	"tasks/internal/app"
+	"tasks/pkg/logger"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -32,10 +33,10 @@ func main() {
 
 	env := app.Env
 	go app.GRPCServer.MustRun()
-	//log := app.Log
+	log := app.Log
 
 	gin := gin.Default()
-	// gin.Use(logger.Logger(log))
+	gin.Use(logger.Logger(log))
 
 	gin.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	taskRoute.SetupTaskRouter(gin, env, app.DB)

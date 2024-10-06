@@ -40,10 +40,6 @@ services:
 volumes:
   pg-tasks-data:
 
-# networks:
-#   dev-network:
-#     name: tasks_dev-network
-#     external: true
 networks:
   dev-network:
     driver: bridge
