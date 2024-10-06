@@ -13,12 +13,12 @@ import (
 )
 
 func InitDatabse(env *config.Config) *bun.DB {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=%s",
-		env.PostgresDB.Host,
+	dsn := fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=%s",
 		env.PostgresDB.User,
 		env.PostgresDB.Password,
-		env.PostgresDB.Name,
+		env.PostgresDB.Host,
 		env.PostgresDB.Port,
+		env.PostgresDB.Name,
 		env.PostgresDB.SSLMode)
 
 	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))

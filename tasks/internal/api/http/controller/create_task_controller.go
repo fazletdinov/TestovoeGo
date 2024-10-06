@@ -6,12 +6,13 @@ import (
 	"tasks/config"
 	"tasks/internal/domain/service"
 	dto "tasks/internal/dto"
+	"tasks/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
 type CreateTaskController struct {
-	taskService service.TaskService
+	TaskService service.TaskService
 	Env         *config.Config
 }
 
@@ -24,7 +25,7 @@ type CreateTaskController struct {
 // @Success     201  		{object}  	dto.SuccessResponse
 // @Failure		400			{object}	dto.ErrorResponse
 // @Failure		500			{object}	dto.ErrorResponse
-// @Router      /task 		[task]
+// @Router      /task 		[post]
 func (tc *CreateTaskController) Create(ctx *gin.Context) {
 	var request dto.TaskRequest
 
@@ -34,7 +35,12 @@ func (tc *CreateTaskController) Create(ctx *gin.Context) {
 		return
 	}
 
-	err = tc.taskService.CreateTask(
+	if !utils.ValidStatus(request.Status) {
+		ctx.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: "Статус может быть 'Выполнено' или 'Не выполнено'"})
+		return
+	}
+
+	err = tc.TaskService.CreateTask(
 		ctx,
 		&request,
 	)

@@ -7,12 +7,13 @@ import (
 	"tasks/config"
 	"tasks/internal/domain/service"
 	dto "tasks/internal/dto"
+	"tasks/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
 type UpdateTaskController struct {
-	taskService service.TaskService
+	TaskService service.TaskService
 	Env         *config.Config
 }
 
@@ -36,7 +37,7 @@ func (utc *UpdateTaskController) Update(ctx *gin.Context) {
 		return
 	}
 
-	_, err = utc.taskService.GetTask(
+	_, err = utc.TaskService.GetTask(
 		ctx,
 		taskID64,
 	)
@@ -51,7 +52,13 @@ func (utc *UpdateTaskController) Update(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: "Невалидные  данные"})
 		return
 	}
-	err = utc.taskService.UpdateTask(
+
+	if !utils.ValidStatus(taskRequest.Status) {
+		ctx.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: "Статус может быть 'Выполнено' или 'Не выполнено'"})
+		return
+	}
+
+	err = utc.TaskService.UpdateTask(
 		ctx,
 		taskID64,
 		taskRequest.Status,

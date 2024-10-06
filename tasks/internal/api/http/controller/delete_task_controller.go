@@ -12,7 +12,7 @@ import (
 )
 
 type DeleteTaskController struct {
-	taskService service.TaskService
+	TaskService service.TaskService
 	Env         *config.Config
 }
 
@@ -34,7 +34,7 @@ func (dtc *DeleteTaskController) Delete(ctx *gin.Context) {
 		return
 	}
 
-	_, err = dtc.taskService.GetTask(
+	_, err = dtc.TaskService.GetTask(
 		ctx,
 		taskID64,
 	)
@@ -43,7 +43,7 @@ func (dtc *DeleteTaskController) Delete(ctx *gin.Context) {
 		return
 	}
 
-	if err = dtc.taskService.DeleteTask(
+	if err = dtc.TaskService.DeleteTask(
 		ctx,
 		taskID64,
 	); err != nil {

@@ -2,8 +2,9 @@ package repository
 
 import (
 	"context"
-	"tasks/internal/models"
 	"time"
+
+	"tasks/internal/models"
 
 	"github.com/uptrace/bun"
 )
@@ -47,7 +48,7 @@ func (tr *taskRepository) GetTasks(
 	offset int,
 ) (*[]models.Task, error) {
 	var tasks []models.Task
-	err := tr.database.NewSelect().Model(tasks).Limit(limit).Offset(offset).Scan(ctx)
+	err := tr.database.NewSelect().Model(&tasks).Offset(offset).Limit(limit).Scan(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +61,7 @@ func (tr *taskRepository) UpdateTask(
 	status string,
 ) error {
 	task := &models.Task{ID: taskID, Status: status, UpdatedAt: time.Now()}
-	err := tr.database.NewUpdate().Model(task).WherePK().Scan(ctx)
+	_, err := tr.database.NewUpdate().Model(task).OmitZero().WherePK().Exec(ctx)
 	if err != nil {
 		return err
 	}
@@ -72,7 +73,7 @@ func (tr *taskRepository) DeleteTask(
 	taskID int64,
 ) error {
 	task := &models.Task{ID: taskID}
-	err := tr.database.NewDelete().Model(task).WherePK().Scan(ctx)
+	_, err := tr.database.NewDelete().Model(task).WherePK().Exec(ctx)
 	if err != nil {
 		return err
 	}

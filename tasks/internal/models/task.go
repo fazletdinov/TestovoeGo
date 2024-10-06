@@ -7,7 +7,7 @@ import (
 )
 
 type Task struct {
-	bun.BaseModel `bun:"table:tasks,alias:u"`
+	bun.BaseModel `bun:"table:tasks,alias:t"`
 
 	ID          int64     `bun:"id,pk,autoincrement"`
 	Titile      string    `bun:"title,notnull"`

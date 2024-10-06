@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -12,7 +13,7 @@ import (
 )
 
 type GetTaskController struct {
-	taskService service.TaskService
+	TaskService service.TaskService
 	Env         *config.Config
 }
 
@@ -33,7 +34,7 @@ func (tc *GetTaskController) Fetch(ctx *gin.Context) {
 		return
 	}
 
-	task, err := tc.taskService.GetTask(
+	task, err := tc.TaskService.GetTask(
 		ctx,
 		taskID64,
 	)
@@ -70,9 +71,9 @@ func (tc *GetTaskController) Fetchs(ctx *gin.Context) {
 		return
 	}
 
-	tasks, err := tc.taskService.GetTasks(ctx, limit, offset)
+	tasks, err := tc.TaskService.GetTasks(ctx, limit, offset)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Tasks не найден"})
+		ctx.JSON(http.StatusNotFound, dto.ErrorResponse{Message: fmt.Sprintf("Tasks не найден %v", err)})
 		return
 	}
 

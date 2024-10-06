@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"time"
+
 	"tasks/internal/domain/repository"
 	"tasks/internal/dto"
 	"tasks/internal/models"
@@ -25,6 +27,7 @@ func (ts *taskService) CreateTask(
 		Titile:      body.Title,
 		Description: body.Description,
 		Status:      body.Status,
+		CreatedAt:   time.Now(),
 	}
 	return ts.taskRepository.CreateTask(ctx, &task)
 }
